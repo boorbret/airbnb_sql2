@@ -2,10 +2,31 @@
 
 1. What's the most expensive listing? What else can you tell me about the listing?
 ```
-
-
-
+SELECT
+	*
+FROM
+	listings
+ORDER BY 
+	price
+DESC
+LIMIT 1
+```
+This listing is $10,000 per night! It has zero reviews and is available very often at 270 nights per year.
+The name refers to it as a MEGA LISTING for groups of 50-100 so it must be extremely large. 
 
 
 2. What neighborhoods seem to be the most popular?
+
+For this question, I'm assuming the field "Availability 365" is lower for more popular listings. This is because AirBnB will often urge you to book based on how rarely a given listing is available. I have aggregated this data by neighborhood. I will assume that the lower availability the more popular that neighborhood is.
+```
+SELECT
+	neighbourhood,
+	SUM(availability_365) days_per_hood
+FROM
+	listings
+GROUP BY 1
+ORDER BY
+	days_per_hood
+ASC
+```
 3. What time of year is the cheapest time to go to your city? What about the busiest?
