@@ -30,3 +30,34 @@ ORDER BY
 ASC
 ```
 3. What time of year is the cheapest time to go to your city? What about the busiest?
+
+For the busiest time of the year I extracted the month from the calendar table and grouped the months by total availability. 
+```
+SELECT
+	EXTRACT(MONTH FROM date) AS month,
+	COUNT(*),
+	available
+FROM
+	calendar
+WHERE
+	available IS TRUE
+GROUP BY month, available
+ORDER BY
+	count
+ASC
+```
+The lowest availability is in September and October, which leads me to believe that the fall is the most popular time in Chicago.
+
+To find the cheapest time, I kept my month extractor in place and aggregated by average price.
+```
+SELECT
+	EXTRACT(MONTH FROM date) AS month,
+	AVG(price) AS avg_price
+FROM
+	calendar
+GROUP BY month
+ORDER BY 
+	avg_price
+DESC
+```
+The cheapest times were January and February, which is not surprising given the weather in Chicago. Something for further investigation in the future: although they had the lowest availability, September and October were in the middle of the pack for price. This could mean there is a different reason for their low availability implying that the most popular is better proxied by some other variable (like price).
